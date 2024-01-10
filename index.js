@@ -76,6 +76,7 @@ app.get('/update-cobj', async (req, res) => {
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 app.post('/update-cobj', async (req, res) => {
+
     const update = {
         properties: {
             "project_name": req.body.project_name,
@@ -84,17 +85,21 @@ app.post('/update-cobj', async (req, res) => {
         }
     }
     const id = req.query.id;
-   
-    const updateContact = `https://api.hubapi.com/crm/v3/objects/2-22397281/${id}?properties=project_name,project_page,project_id`;
-
     const headers = {
         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     };
-
     try { 
-        await axios.patch(updateContact, update, { headers } );
-        res.redirect('/');
+        if(typeof id !=='undefined'){
+            const update_project = `https://api.hubapi.com/crm/v3/objects/2-22397281/${id}`;
+    
+            await axios.patch(update_project, update, { headers } );
+            res.redirect('/');
+        } else {
+            const add_project = 'https://api.hubapi.com/crm/v3/objects/2-22397281';
+            await axios.post(add_project, update, { headers } );
+            res.redirect('/');
+        }
     } catch(err) {
         console.error(err);
     }
