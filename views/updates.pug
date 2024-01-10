@@ -1,0 +1,17 @@
+doctype html
+html(lang="en")
+    head 
+        title= `${title}`
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="/css/style.css")
+    body
+        h1 `${title}`
+        .form-wrapper
+            form(method="POST")
+                label(for="project_name") Project Name
+                input(type="text" name="project_name" value=`${project_name}` required)
+                label(for="project_id") Project ID
+                input(type="text" name="project_id" value=`${project_id}` required)
+                label(for="project_completion") Completion
+                input(type="text" name="project_completion" value=`${project_completion}` required)
+                input(type="submit" value="Submit")
